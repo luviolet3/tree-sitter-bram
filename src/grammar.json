@@ -1,0 +1,483 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
+  "name": "bram",
+  "rules": {
+    "main": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
+        }
+      ]
+    },
+    "variable": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z1-9_]+"
+    },
+    "keyword": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "forall"
+          },
+          {
+            "type": "STRING",
+            "value": "exists"
+          }
+        ]
+      }
+    },
+    "contradiction": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "_|_"
+        },
+        {
+          "type": "STRING",
+          "value": "⊥"
+        }
+      ]
+    },
+    "tautology": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "^|^"
+        },
+        {
+          "type": "STRING",
+          "value": "⊤"
+        }
+      ]
+    },
+    "notterm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "~"
+            },
+            {
+              "type": "STRING",
+              "value": "¬"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "paren_expr"
+        }
+      ]
+    },
+    "predicate": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "variable"
+            },
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "expr"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expr"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable"
+        }
+      ]
+    },
+    "_forall_repr": {
+      "type": "STRING",
+      "value": "forall"
+    },
+    "forall_quantifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_forall_repr"
+            },
+            {
+              "type": "STRING",
+              "value": " "
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "∀"
+        }
+      ]
+    },
+    "_exists_repr": {
+      "type": "STRING",
+      "value": "exists"
+    },
+    "exists_quantifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_exists_repr"
+            },
+            {
+              "type": "STRING",
+              "value": " "
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "∃"
+        }
+      ]
+    },
+    "quantifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "forall_quantifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exists_quantifier"
+        }
+      ]
+    },
+    "binder": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "quantifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "("
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "expr"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ")"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PREC",
+              "value": 0,
+              "content": {
+                "type": "SYMBOL",
+                "name": "paren_expr"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "impl_term": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "paren_expr"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "->"
+            },
+            {
+              "type": "STRING",
+              "value": "→"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "paren_expr"
+        }
+      ]
+    },
+    "andrepr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "STRING",
+          "value": "∧"
+        },
+        {
+          "type": "STRING",
+          "value": "/\\"
+        }
+      ]
+    },
+    "orrepr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "STRING",
+          "value": "∨"
+        },
+        {
+          "type": "STRING",
+          "value": "\\/"
+        }
+      ]
+    },
+    "biconrepr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<->"
+        },
+        {
+          "type": "STRING",
+          "value": "↔"
+        }
+      ]
+    },
+    "equivrepr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "==="
+        },
+        {
+          "type": "STRING",
+          "value": "≡"
+        }
+      ]
+    },
+    "plusrepr": {
+      "type": "STRING",
+      "value": "+"
+    },
+    "multrepr": {
+      "type": "STRING",
+      "value": "*"
+    },
+    "_assoc_term_aux": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "andrepr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "orrepr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "biconrepr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "equivrepr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "plusrepr"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "multrepr"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_assoc_term_aux"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "paren_expr"
+        }
+      ]
+    },
+    "assoc_term": {
+      "type": "SYMBOL",
+      "name": "_assoc_term_aux"
+    },
+    "paren_expr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "contradiction"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tautology"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "predicate"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "notterm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binder"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expr"
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        }
+      ]
+    },
+    "expr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assoc_term"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "impl_term"
+        },
+        {
+          "type": "PREC",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "paren_expr"
+          }
+        }
+      ]
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": " |\\t"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": [
+    "expr"
+  ],
+  "reserved": {
+    "keywords": [
+      {
+        "type": "STRING",
+        "value": "forall"
+      },
+      {
+        "type": "STRING",
+        "value": "exists"
+      }
+    ]
+  }
+}

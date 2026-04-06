@@ -1,0 +1,361 @@
+[
+  {
+    "type": "expr",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "assoc_term",
+        "named": true
+      },
+      {
+        "type": "impl_term",
+        "named": true
+      },
+      {
+        "type": "paren_expr",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "andrepr",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "assoc_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "andrepr",
+          "named": true
+        },
+        {
+          "type": "biconrepr",
+          "named": true
+        },
+        {
+          "type": "equivrepr",
+          "named": true
+        },
+        {
+          "type": "multrepr",
+          "named": true
+        },
+        {
+          "type": "orrepr",
+          "named": true
+        },
+        {
+          "type": "paren_expr",
+          "named": true
+        },
+        {
+          "type": "plusrepr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "biconrepr",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "binder",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contradiction",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "equivrepr",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "exists_quantifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "forall_quantifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "impl_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "paren_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "main",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "notterm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "paren_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "orrepr",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "paren_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binder",
+          "named": true
+        },
+        {
+          "type": "contradiction",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "notterm",
+          "named": true
+        },
+        {
+          "type": "predicate",
+          "named": true
+        },
+        {
+          "type": "tautology",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "predicate",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quantifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "exists_quantifier",
+          "named": true
+        },
+        {
+          "type": "forall_quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tautology",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": " ",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": "/\\",
+    "named": false
+  },
+  {
+    "type": "<->",
+    "named": false
+  },
+  {
+    "type": "===",
+    "named": false
+  },
+  {
+    "type": "\\/",
+    "named": false
+  },
+  {
+    "type": "^|^",
+    "named": false
+  },
+  {
+    "type": "_|_",
+    "named": false
+  },
+  {
+    "type": "exists",
+    "named": false
+  },
+  {
+    "type": "forall",
+    "named": false
+  },
+  {
+    "type": "multrepr",
+    "named": true
+  },
+  {
+    "type": "plusrepr",
+    "named": true
+  },
+  {
+    "type": "variable",
+    "named": true
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  },
+  {
+    "type": "¬",
+    "named": false
+  },
+  {
+    "type": "→",
+    "named": false
+  },
+  {
+    "type": "↔",
+    "named": false
+  },
+  {
+    "type": "∀",
+    "named": false
+  },
+  {
+    "type": "∃",
+    "named": false
+  },
+  {
+    "type": "∧",
+    "named": false
+  },
+  {
+    "type": "∨",
+    "named": false
+  },
+  {
+    "type": "≡",
+    "named": false
+  },
+  {
+    "type": "⊤",
+    "named": false
+  },
+  {
+    "type": "⊥",
+    "named": false
+  }
+]

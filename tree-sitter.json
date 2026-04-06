@@ -7,7 +7,7 @@
       "title": "Bram",
       "scope": "source.bram",
       "file-types": [
-        "bram"
+        ""
       ],
       "injection-regex": "^bram$",
       "class-name": "TreeSitterBram"
