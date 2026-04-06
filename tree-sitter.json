@@ -7,7 +7,7 @@
       "title": "Bram",
       "scope": "source.bram",
       "file-types": [
-        ""
+        "bram"
       ],
       "injection-regex": "^bram$",
       "class-name": "TreeSitterBram"
@@ -20,7 +20,7 @@
     "authors": [
       {
         "name": "violet Lu",
-        "url": ""
+        "url": "luv.iolet.org"
       }
     ],
     "links": {
