@@ -1,11 +1,27 @@
-/**
- * @file Bram parser for tree-sitter
- * @author violet Lu
- * @license MIT
- */
 
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
+
+/**
+ * Creates a rule that matches zero-or-more occurrences of a given rule seperated by a delimiter
+ * 
+ * @file Bram parser for tree-sitter
+ * 
+ * @license MIT
+ * @param {RuleOrLiteral} rule rule to repeat, zero or more times
+ * @param {RuleOrLiteral} del delimiter to seperate rule
+ */
+function delimited(rule, del) { return seq(repeat(seq(rule, del)), rule)}
+/**
+ * Creates a rule that matches one-or-more occurrences of a given rule seperated by a delimiter.
+ * 
+ * @file Bram parser for tree-sitter
+ * 
+ * @license MIT
+ * @param {RuleOrLiteral} rule rule to repeat, one or more times
+ * @param {RuleOrLiteral} del delimiter to seperate rule
+ */
+function delimited1(rule, del) { return seq(repeat1(seq(rule, del)), rule)}
 
 export default grammar({
   name: "bram",
@@ -18,6 +34,7 @@ export default grammar({
     / |\t/
   ],
 
+  // @ts-ignore
   reserved: {
     keywords: $ => ['forall', 'exists']
   },
@@ -26,7 +43,7 @@ export default grammar({
     main: $ => seq($.expr, '\n'),
 
     /// Parses a variable, ensuring it is not a reserved keyword
-    variable: $ => /[a-zA-Z1-9_]+/,
+    variable: $ => field('name', /[a-zA-Z1-9_]+/),
 
     /// Matches logical keywords ('forall' or 'exists')
     keyword: $ => prec(1, choice('forall', 'exists')),
@@ -40,16 +57,20 @@ export default grammar({
     /// Parses a negation term (e.g., '¬A')
     notterm: $ => seq(
       choice('~', '¬'),
-      $.paren_expr
+      field('inner', $.paren_expr)
     ),
 
     /// Parses a predicate or variable term
     predicate: $ => choice(
       seq(
-        $.variable,
+        field('name', $.variable),
         '(',
-        repeat(seq($.expr, ',')),
-        $.expr,
+        field('arguments',
+          seq(
+            repeat(seq($.expr, ',')),
+            $.expr,
+          )
+        ),
         ')'
       ),
       $.variable
@@ -94,7 +115,7 @@ export default grammar({
     /// Parses a biconditional operator (e.g., '<->' or '↔')
     biconrepr: $ => choice('<->', '↔'),
 
-    /// Parses an equivalence operator (e.g., '===' or '≡')/// Parses an equivalence operator (e.g., '===' or '≡')
+    /// Parses an equivalence operator (e.g., '===' or '≡')
     equivrepr: $ => choice('===', '≡'),
 
     /// Parses an addition operator ('+')
@@ -104,69 +125,19 @@ export default grammar({
     multrepr: $ => '*',
 
     /// Parses a sequence of associative terms and their operators
-    _assoc_term_aux: $ => choice(
-      seq(
-        $.paren_expr,
-        choice(
-          $.andrepr,
-          $.orrepr,
-          $.biconrepr,
-          $.equivrepr,
-          $.plusrepr,
-          $.multrepr
-        ),
-        $._assoc_term_aux
-      ),
-      $.paren_expr
-    ),
-// fn assoc_term_aux(input: &str) -> IResult<&str, (Vec<Expr>, Vec<Op>)> {
-//   alt((
-//       map(
-//         tuple((
-//           paren_expr,
-//           delimited(
-//             space,
-//             alt((
-//               andrepr,
-//               orrepr,
-//               biconrepr,
-//               equivrepr,
-//               plusrepr,
-//               multrepr
-//             )),
-//             space
-//           ),
-//           assoc_term_aux
-//         )),
-//         |(e, sym, (mut es, mut syms))| {
-//           es.push(e);
-//           syms.push(sym);
-//           (es, syms)
-//         }
-//       ),
-//       map(
-//         paren_expr,
-//         |e| (vec![e], vec![])
-//       ),
-//   ))(input)
-// }
-
     /// Enforce that all symbols are the same.
     /// This check is what rules out `(a /\ b \/ c)` without further parenthesization.
-    assoc_term: $ => $._assoc_term_aux,
-    // fn assoc_term(s: &str) -> nom::IResult<&str, Expr> {
-    //   let (rest, (mut exprs, syms)) = assoc_term_aux(s)?;
-    //   assert_eq!(exprs.len(), syms.len() + 1);
-    //   if exprs.len() == 1 {
-    //       return custom_error(rest);
-    //   }
-    //   let op = syms[0];
-    //   if !syms.iter().all(|x| x == &op) {
-    //       return custom_error(rest);
-    //   }
-    //   exprs.reverse();
-    //   Ok((rest, Expr::Assoc { op, exprs }))
-    // }
+    assoc_term: $ => {
+      let ops = [
+        alias($.andrepr, '∧'),
+        alias($.orrepr, '∨'),
+        alias($.biconrepr, '↔'),
+        alias($.equivrepr, '≡'),
+        alias($.plusrepr, '+'),
+        alias($.multrepr, '*'),
+      ]
+      return choice(...ops.map(op => delimited1($.paren_expr, op)));
+    },
 
     /// paren_expr is a factoring of expr that eliminates left-recursion, which parser combinators have trouble with
     paren_expr: $ => choice(

@@ -16,8 +16,12 @@
       ]
     },
     "variable": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z1-9_]+"
+      "type": "FIELD",
+      "name": "name",
+      "content": {
+        "type": "PATTERN",
+        "value": "[a-zA-Z1-9_]+"
+      }
     },
     "keyword": {
       "type": "PREC",
@@ -79,8 +83,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "paren_expr"
+          "type": "FIELD",
+          "name": "inner",
+          "content": {
+            "type": "SYMBOL",
+            "name": "paren_expr"
+          }
         }
       ]
     },
@@ -91,32 +99,45 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "variable"
+              "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "variable"
+              }
             },
             {
               "type": "STRING",
               "value": "("
             },
             {
-              "type": "REPEAT",
+              "type": "FIELD",
+              "name": "arguments",
               "content": {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "expr"
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "expr"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": ","
+                        }
+                      ]
+                    }
                   },
                   {
-                    "type": "STRING",
-                    "value": ","
+                    "type": "SYMBOL",
+                    "name": "expr"
                   }
                 ]
               }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "expr"
             },
             {
               "type": "STRING",
@@ -336,60 +357,190 @@
       "type": "STRING",
       "value": "*"
     },
-    "_assoc_term_aux": {
+    "assoc_term": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SEQ",
           "members": [
             {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "andrepr"
+                    },
+                    "named": false,
+                    "value": "∧"
+                  }
+                ]
+              }
+            },
+            {
               "type": "SYMBOL",
               "name": "paren_expr"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "andrepr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "orrepr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "biconrepr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "equivrepr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "plusrepr"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "multrepr"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_assoc_term_aux"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "paren_expr"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "orrepr"
+                    },
+                    "named": false,
+                    "value": "∨"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "biconrepr"
+                    },
+                    "named": false,
+                    "value": "↔"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "equivrepr"
+                    },
+                    "named": false,
+                    "value": "≡"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "plusrepr"
+                    },
+                    "named": false,
+                    "value": "+"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "paren_expr"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "multrepr"
+                    },
+                    "named": false,
+                    "value": "*"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "paren_expr"
+            }
+          ]
         }
       ]
-    },
-    "assoc_term": {
-      "type": "SYMBOL",
-      "name": "_assoc_term_aux"
     },
     "paren_expr": {
       "type": "CHOICE",
