@@ -3,17 +3,22 @@
   "name": "bram",
   "rules": {
     "main": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "expr"
-        },
-        {
-          "type": "STRING",
-          "value": "\n"
-        }
-      ]
+      "type": "ALIAS",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          },
+          {
+            "type": "STRING",
+            "value": "\n"
+          }
+        ]
+      },
+      "named": true,
+      "value": "expr"
     },
     "variable": {
       "type": "FIELD",
@@ -616,9 +621,7 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": [
-    "expr"
-  ],
+  "supertypes": [],
   "reserved": {
     "keywords": [
       {

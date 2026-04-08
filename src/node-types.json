@@ -1,23 +1,5 @@
 [
   {
-    "type": "expr",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "assoc_term",
-        "named": true
-      },
-      {
-        "type": "impl_term",
-        "named": true
-      },
-      {
-        "type": "paren_expr",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "assoc_term",
     "named": true,
     "fields": {},
@@ -45,6 +27,10 @@
           "named": true
         },
         {
+          "type": "paren_expr",
+          "named": true
+        },
+        {
           "type": "quantifier",
           "named": true
         },
@@ -64,6 +50,29 @@
     "type": "exists_quantifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "assoc_term",
+          "named": true
+        },
+        {
+          "type": "impl_term",
+          "named": true
+        },
+        {
+          "type": "paren_expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "forall_quantifier",
@@ -91,7 +100,7 @@
     "root": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -240,10 +249,6 @@
     "type": "≡",
     "named": false,
     "fields": {}
-  },
-  {
-    "type": "\n",
-    "named": false
   },
   {
     "type": " ",

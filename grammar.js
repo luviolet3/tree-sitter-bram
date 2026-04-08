@@ -26,10 +26,6 @@ function delimited1(rule, del) { return seq(repeat1(seq(rule, del)), rule)}
 export default grammar({
   name: "bram",
 
-  supertypes: $ => [
-    $.expr
-  ],
-
   extras: $ => [
     / |\t/
   ],
@@ -40,7 +36,7 @@ export default grammar({
   },
 
   rules: {
-    main: $ => seq($.expr, '\n'),
+    main: $ => alias(seq($.expr, '\n'), $.expr),
 
     /// Parses a variable, ensuring it is not a reserved keyword
     variable: $ => field('name', /[a-zA-Z1-9_]+/),

@@ -16,8 +16,8 @@
 #define FIELD_COUNT 3
 #define MAX_ALIAS_SEQUENCE_LENGTH 5
 #define MAX_RESERVED_WORD_SET_SIZE 0
-#define PRODUCTION_ID_COUNT 5
-#define SUPERTYPE_COUNT 1
+#define PRODUCTION_ID_COUNT 6
+#define SUPERTYPE_COUNT 0
 
 enum ts_symbol_identifiers {
   anon_sym_LF = 1,
@@ -81,7 +81,7 @@ enum ts_symbol_identifiers {
 
 static const char * const ts_symbol_names[] = {
   [ts_builtin_sym_end] = "end",
-  [anon_sym_LF] = "\n",
+  [anon_sym_LF] = "expr",
   [aux_sym_variable_token1] = "variable_token1",
   [anon_sym__PIPE_] = "_|_",
   [anon_sym_u22a5] = "\u22a5",
@@ -142,7 +142,7 @@ static const char * const ts_symbol_names[] = {
 
 static const TSSymbol ts_symbol_map[] = {
   [ts_builtin_sym_end] = ts_builtin_sym_end,
-  [anon_sym_LF] = anon_sym_LF,
+  [anon_sym_LF] = sym_expr,
   [aux_sym_variable_token1] = aux_sym_variable_token1,
   [anon_sym__PIPE_] = anon_sym__PIPE_,
   [anon_sym_u22a5] = anon_sym_u22a5,
@@ -208,7 +208,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
   [anon_sym_LF] = {
     .visible = true,
-    .named = false,
+    .named = true,
   },
   [aux_sym_variable_token1] = {
     .visible = false,
@@ -403,9 +403,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym_expr] = {
-    .visible = false,
+    .visible = true,
     .named = true,
-    .supertype = true,
   },
   [aux_sym_predicate_repeat1] = {
     .visible = false,
@@ -453,8 +452,8 @@ static const char * const ts_field_names[] = {
 static const TSMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [1] = {.index = 0, .length = 1},
   [2] = {.index = 1, .length = 1},
-  [3] = {.index = 2, .length = 2},
-  [4] = {.index = 4, .length = 3},
+  [4] = {.index = 2, .length = 2},
+  [5] = {.index = 4, .length = 3},
 };
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
@@ -473,9 +472,15 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
 
 static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
+  [3] = {
+    [0] = sym_expr,
+  },
 };
 
 static const uint16_t ts_non_terminal_alias_map[] = {
+  sym_expr, 2,
+    sym_expr,
+    sym_expr,
   0,
 };
 
@@ -555,21 +560,6 @@ static const TSStateId ts_primary_state_ids[STATE_COUNT] = {
   [72] = 72,
   [73] = 73,
   [74] = 74,
-};
-
-static const TSSymbol ts_supertype_symbols[SUPERTYPE_COUNT] = {
-  sym_expr,
-};
-
-static const TSMapSlice ts_supertype_map_slices[] = {
-  [sym_expr] = {.index = 0, .length = 3},
-};
-
-static const TSSymbol ts_supertype_map_entries[] = {
-  [0] =
-    sym_assoc_term,
-    sym_impl_term,
-    sym_paren_expr,
 };
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -2564,8 +2554,8 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [242] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_paren_expr, 3, 0, 0),
   [244] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_binder, 3, 0, 0),
   [246] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_tautology, 1, 0, 0),
-  [248] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_predicate, 4, 0, 3),
-  [250] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_predicate, 5, 0, 4),
+  [248] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_predicate, 4, 0, 4),
+  [250] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_predicate, 5, 0, 5),
   [252] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_binder, 5, 0, 0),
   [254] = {.entry = {.count = 1, .reusable = false}}, REDUCE(aux_sym_predicate_repeat1, 2, 0, 0),
   [256] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_predicate_repeat1, 2, 0, 0),
@@ -2603,7 +2593,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [320] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_forall_quantifier, 2, 0, 0),
   [322] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_exists_quantifier, 2, 0, 0),
   [324] = {.entry = {.count = 1, .reusable = true}}, SHIFT(70),
-  [326] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_main, 2, 0, 0),
+  [326] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_main, 2, 0, 3),
   [328] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_forall_quantifier, 1, 0, 0),
   [330] = {.entry = {.count = 1, .reusable = true}}, SHIFT(33),
   [332] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_exists_quantifier, 1, 0, 0),
@@ -2641,9 +2631,6 @@ TS_PUBLIC const TSLanguage *tree_sitter_bram(void) {
     .field_names = ts_field_names,
     .field_map_slices = ts_field_map_slices,
     .field_map_entries = ts_field_map_entries,
-    .supertype_map_slices = ts_supertype_map_slices,
-    .supertype_map_entries = ts_supertype_map_entries,
-    .supertype_symbols = ts_supertype_symbols,
     .symbol_metadata = ts_symbol_metadata,
     .public_symbol_map = ts_symbol_map,
     .alias_map = ts_non_terminal_alias_map,
